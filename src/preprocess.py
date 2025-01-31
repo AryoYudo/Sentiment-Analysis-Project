@@ -1,20 +1,17 @@
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
-import numpy as np
+# preprocess.py
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+import string
 
-MAX_NB_WORDS = 10000  # Batas jumlah kata
-MAX_SEQUENCE_LENGTH = 100  # Panjang maksimum setiap urutan
+def preprocess_text(texts):
+    # Contoh fungsi untuk preprocessing teks
+    stop_words = set(stopwords.words('english'))
+    processed_texts = []
 
-def preprocess_text(reviews):
-    # Tokenisasi dan pembersihan teks
-    tokenizer = Tokenizer(num_words=MAX_NB_WORDS)
-    tokenizer.fit_on_texts(reviews)
-    sequences = tokenizer.texts_to_sequences(reviews)
+    for text in texts:
+        # Tokenisasi dan pembersihan teks
+        tokens = word_tokenize(text.lower())  # Tokenisasi dan ubah menjadi lowercase
+        tokens = [word for word in tokens if word not in stop_words and word not in string.punctuation]
+        processed_texts.append(' '.join(tokens))
 
-    # Pastikan tidak ada nilai None dalam sequences
-    sequences = [seq if seq is not None else [] for seq in sequences]
-
-    # Padding sequences untuk memastikan panjangnya konsisten
-    padded_sequences = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH, padding='post')
-
-    return padded_sequences
+    return processed_texts
