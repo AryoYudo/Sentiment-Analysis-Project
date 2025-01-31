@@ -1,5 +1,7 @@
 import tensorflow as tf
 from preprocess import clean_text, preprocess_text, tokenizer
+from preprocess import clean_text, preprocess_text
+
 
 # 1️⃣ Load Model yang Sudah Dilatih
 model = tf.keras.models.load_model("../models/model_sentiment_lstm.h5")

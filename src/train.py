@@ -1,11 +1,11 @@
-# train.py
 import pandas as pd
-# Ubah semua impor Keras menjadi tensorflow.keras
+import numpy as np  # Impor numpy
 from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout
 from tensorflow.keras.optimizers import Adam
-
+from tensorflow.keras.callbacks import EarlyStopping
 
 # Load dataset
 df = pd.read_csv("data/imdb_reviews.csv")  # Sesuaikan dengan path file CSV
@@ -19,6 +19,10 @@ X = pad_sequences(X, maxlen=100)  # Sesuaikan dengan panjang urutan yang diingin
 # Mengonversi label menjadi format yang sesuai
 y = df['sentiment'].values  # Misalnya, jika sentiment berupa teks seperti 'positive' dan 'negative'
 y = [1 if sentiment == 'positive' else 0 for sentiment in y]  # Mengonversi menjadi 1 untuk positif dan 0 untuk negatif
+
+# Ubah X dan y menjadi array NumPy
+X = np.array(X)
+y = np.array(y)
 
 # Definisikan model LSTM
 model = Sequential()
